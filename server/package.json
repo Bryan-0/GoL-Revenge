@@ -1,0 +1,29 @@
+{
+  "name": "GoLRevenge",
+  "description": "Multiplayer Game of Life",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Joimer/GoL-Revenge"
+  },
+  "dependencies": {
+    "sockjs": "^0.3.17"
+  },
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "mocha && eslint"
+  },
+  "author": {
+    "name": "Juanma Serrano",
+    "email": "juanmadss@gmail.com"
+  },
+  "private": false,
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "mocha": "^2.4.5"
+  },
+  "engines": {
+    "node": ">=4.0.0"
+  }
+}
