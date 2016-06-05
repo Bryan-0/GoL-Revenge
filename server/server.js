@@ -1,14 +1,28 @@
+'use strict';
+
 const http = require('http');
 const sockjs = require('sockjs');
+const Parser =require('./parser.js');
 
-let server = sockjs.createServer({sockjs_url: 'http://cdn.jsdelivr.net/sockjs/1.0.1/sockjs.min.js'});
-server.on('connection', (conn) => {
-	conn.on('data', (message) => {
-		console.log(message);
+let socketServer = sockjs.createServer({sockjs_url: 'http://cdn.jsdelivr.net/sockjs/1.0.1/sockjs.min.js'});
+socketServer.on('connection', socket => {
+	Users.add(socket);
+
+	socket.on('data', message => {
+		if (Buffer(message).length > 10000) {
+			socket.close();
+		} else {
+			Parser.parse(message, socket.user);
+		}
 	});
-	conn.on('close', function() {});
+
+	socket.on('close', () => {
+		if (socket.user) {
+			Users.remove(socket.user.id);
+		}
+	});
 });
 
 const server = http.createServer();
-server.installHandlers(server, {prefix: '/gol'});
+socketServer.installHandlers(server, {prefix: '/gol'});
 server.listen(9001, '0.0.0.0');
