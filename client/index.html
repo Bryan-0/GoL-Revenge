@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+		<title>Game of Life: Revenge</title>
+		<link rel="stylesheet" href="css/gol.css" />
+		<meta id="viewport" name="viewport" content="width=640" />
+		<meta name="robots" content="noindex" />
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+		<script src="lib/sockjs-1.1.1.min.js"></script>
+		<script src="js/sockets.js"></script>
+		<script src="js/client.js"></script>
+	</head>
+	<body>
+		<div id="body">
+			<h1>Game of Life: Revenge</h1>
+			<p>
+				<div id="your-name-input">Name: <input type="text" name="your-name" /></div>
+			</p>
+			<p>
+				<h2>Create game</h2>
+				<div id='creation-form'>
+				<form method="post" action="/">
+					
+					<input type="button" id="create-game" value="Create Game" onclick="createGame();" />
+				</form>
+				</div>
+			</p>
+			<p>
+				<h2>List of current games</h2>
+				<ul id='active-game-list'></ul>
+			</p>
+		</div>
+	</body>
+</html>
