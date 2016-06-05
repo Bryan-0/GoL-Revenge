@@ -8,8 +8,10 @@
 		<meta name="robots" content="noindex" />
 		<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
 		<script src="lib/sockjs-1.1.1.min.js"></script>
-		<script src="js/sockets.js"></script>
+		<script src="js/config.js"></script>
+		<script src="js/encoder.js"></script>
 		<script src="js/client.js"></script>
+		<script src="js/sockets.js"></script>
 	</head>
 	<body>
 		<div id="body">
@@ -21,7 +23,7 @@
 				<h2>Create game</h2>
 				<div id='creation-form'>
 				<form method="post" action="/">
-					
+
 					<input type="button" id="create-game" value="Create Game" onclick="createGame();" />
 				</form>
 				</div>

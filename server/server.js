@@ -10,5 +10,5 @@ server.on('connection', (conn) => {
 });
 
 const server = http.createServer();
-server.installHandlers(server, {prefix: '/spellchess'});
+server.installHandlers(server, {prefix: '/gol'});
 server.listen(9001, '0.0.0.0');
