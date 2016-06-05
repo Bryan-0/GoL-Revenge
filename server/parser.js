@@ -4,7 +4,7 @@ class Parser {
 	parse(data) {
 		let parsed = null;
 		try {
-			parsed = JSON.parse(json);
+			parsed = JSON.parse(data);
 		} catch (e) {
 			console.log('[ERROR] Attempted to JSON.parse wrong JSON');
 			parsed = {};

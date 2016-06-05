@@ -9,6 +9,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
 		<script src="lib/sockjs-1.1.1.min.js"></script>
 		<script src="js/config.js"></script>
+		<script src="js/actions.js"></script>
 		<script src="js/encoder.js"></script>
 		<script src="js/client.js"></script>
 		<script src="js/sockets.js"></script>
@@ -24,7 +25,7 @@
 				<div id='creation-form'>
 				<form method="post" action="/">
 
-					<input type="button" id="create-game" value="Create Game" onclick="createGame();" />
+					<input type="button" id="create-game" value="Create Game" onclick="socket.send('CREATE_GAME', {si: 'oque'});" />
 				</form>
 				</div>
 			</p>

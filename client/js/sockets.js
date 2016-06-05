@@ -37,8 +37,15 @@ var GolSocket = (function () {
 		this.onClose();
 	};
 
-	GolSocket.prototype.send = function (data) {
-		this.socket.send(this.encoder.encode(data));
+	GolSocket.prototype.send = function (type, data) {
+		if (type in actions) {
+			var toSend = {
+				action: type,
+				payload: data
+			};
+			return this.socket.send(this.encoder.encode(toSend));
+		}
+		console.log('Invalid action type: ' + type);
 	};
 
 	return GolSocket;

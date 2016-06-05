@@ -21,6 +21,7 @@ var GolClient = (function () {
 
 	GolClient.prototype.createGame = function () {
 		// Will list active games to join and spectate.
+		
 	};
 
 	return GolClient;
