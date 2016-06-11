@@ -9,11 +9,16 @@ class User {
 		this.generateId();
 		this.ips = [socket.remoteAddress];
 		this.currentIp = socket.remoteAddress;
+		this.bacteriaPrototype = {fertility, mortality, stability, color};
 	}
 
 	generateId() {
 		let text = '' + this.name;
 		this.id = text.toLowerCase().replace(/[^a-z0-9]+/g, '');
+	}
+
+	usePrototype(proto) {
+		this.bacteriaPrototype = proto;
 	}
 
 	send(message) {
