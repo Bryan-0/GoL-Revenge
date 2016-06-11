@@ -9,7 +9,7 @@ class User {
 		this.generateId();
 		this.ips = [socket.remoteAddress];
 		this.currentIp = socket.remoteAddress;
-		this.bacteriaPrototype = {fertility, mortality, stability, color};
+		this.bacteriaPrototype = {};
 	}
 
 	generateId() {
