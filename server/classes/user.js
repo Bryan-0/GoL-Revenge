@@ -9,7 +9,7 @@ class User {
 		this.generateId();
 		this.ips = [socket.remoteAddress];
 		this.currentIp = socket.remoteAddress;
-		this.bacteriaPrototype = {};
+		this.bacteriaPrototype = {owner: false, genetics: false, pattern: false};
 	}
 
 	generateId() {
@@ -18,6 +18,11 @@ class User {
 	}
 
 	usePrototype(proto) {
+		proto.owner = this;
+		if (!proto.genetics)
+			proto.genetics = {fertility: 3, mortality: 1, stability: 2, color: '#000'};
+		if (!proto.pattern)
+			proto.pattern = [{x: 2, y: 1}, {x: 2, y: 2}, {x: 2, y: 3}];
 		this.bacteriaPrototype = proto;
 	}
 

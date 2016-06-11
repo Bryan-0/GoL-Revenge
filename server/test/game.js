@@ -7,7 +7,10 @@ const FakeSocket = require('./../classes/test/fake-socket.js');
 describe('Game of Life', () => {
 	it('should work', () => {
 		let owner = new User(new FakeSocket());
-		owner.usePrototype({fertility: 1, mortality: 4, stability: 0, color: '#0F6'});
+		owner.usePrototype({
+			genetics: {fertility: 1, mortality: 4, stability: 0, color: '#0F6'},
+			pattern: {}
+		});
 		let board = new Board();
 		let game = new Game(owner, board);
 		let playerTwo = new User(new FakeSocket());
@@ -15,7 +18,6 @@ describe('Game of Life', () => {
 		game.addPlayer(playerTwo);
 		game.start();
 		game.next();
-		game.pause();
 		console.log(game.boardStatus());
 	});
 });
