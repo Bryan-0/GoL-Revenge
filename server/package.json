@@ -12,7 +12,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "mocha && eslint"
+    "test": "mocha"
   },
   "author": {
     "name": "Juanma Serrano",

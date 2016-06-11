@@ -2,9 +2,9 @@
 
 const http = require('http');
 const sockjs = require('sockjs');
-const Parser =require('./parser.js');
+const Parser =require('./classes/parser.js');
 
-let socketServer = sockjs.createServer({sockjs_url: 'http://cdn.jsdelivr.net/sockjs/1.0.1/sockjs.min.js'});
+let socketServer = sockjs.createServer({sockjs_url: Config.sockjsUrl});
 socketServer.on('connection', socket => {
 	Users.add(socket);
 
@@ -24,5 +24,5 @@ socketServer.on('connection', socket => {
 });
 
 const server = http.createServer();
-socketServer.installHandlers(server, {prefix: '/gol'});
-server.listen(9001, '0.0.0.0');
+socketServer.installHandlers(server, {prefix: Config.prefix});
+server.listen(Config.port, Config.ip);
