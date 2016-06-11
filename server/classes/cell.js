@@ -1,16 +1,18 @@
 'use strict';
 
 class Cell {
-    constructor() {
-        this.type = 1;
-        this.inhabitant = {};
-    }
+	constructor() {
+		this.type = 1;
+		this.inhabitant = {};
+	}
 
 	makeType(type) {
 		this.type = type;
 	}
 
-    inhabit(obj) {
-        this.inhabitant = obj;
-    }
+	inhabit(obj) {
+		this.inhabitant = obj;
+	}
 }
+
+module.exports = Cell;
