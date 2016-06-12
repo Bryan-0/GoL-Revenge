@@ -63,11 +63,11 @@ class Board {
 						if (adjacents[this.board[x][y].inhabitant.owner.id]) {
 							// Dies if too few or too much adjacent Bacteria of the same type.
 							if (adjacents[this.board[x][y].inhabitant.owner.id] >= this.board[x][y].inhabitant.overpopulation || adjacents[this.board[x][y].inhabitant.owner.id] <= this.board[x][y].inhabitant.solitude)
-								this.board[x][y].kill();
+								this.killCell(x, y);
 							continue;
 						}
 						// If we are here, it means there are no adjacent Bacteria. This always result in death.
-						this.board[x][y].kill();
+						this.killCell(x, y);
 					}
 
 					// Check if this cell becomes populated.
