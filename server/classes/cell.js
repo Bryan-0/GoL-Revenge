@@ -3,7 +3,7 @@
 class Cell {
 	constructor() {
 		this.type = 1;
-		this.inhabitant;
+		this.inhabitant = false;
 	}
 
 	makeType(type) {
@@ -12,6 +12,10 @@ class Cell {
 
 	inhabit(obj) {
 		this.inhabitant = obj;
+	}
+
+	isHabitated() {
+		return !!this.inhabitant;
 	}
 
 	toString() {

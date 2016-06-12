@@ -37,6 +37,10 @@ class Board {
 		this.board[x][y].inhabit(bacteria);
 	}
 
+	isHabitated(x, y) {
+		return this.board[x][y].isHabitated();
+	}
+
 	show() {
 		let opt = '';
 		for (let x = 0; x < this.size; x++) {
