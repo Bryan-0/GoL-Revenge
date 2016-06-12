@@ -43,8 +43,8 @@ class Board {
 			for (let y = 0; y < this.size; y++) {
 				opt += '' + this.board[x][y];
 			}
+			opt += '|\n';
 		}
-		opt += '|';
 		console.log(opt);
 	}
 }

@@ -10,7 +10,7 @@ class Game {
 		this.generation = 0;
 		this.players = new Map();
 		this.addPlayer(this.owner);
-		this.entropy = 20;
+		this.entropy = 21;
 		this.lockedOnPlay = true;
 		this.playInterval = null;
 	}
@@ -26,19 +26,17 @@ class Game {
 			this.board.size = newNum;
 	}
 
-	populateCells(bactProto, x, y) {
-		for (let coord in bactProto.pattern) {
-			console.log(x, y, coord);
-			console.log('Populating on', x + coord.x, y + coord.y);
-			this.board.populateCell(x + coord.x, y + coord.y, new Bacteria(bactProto.owner, bactProto.genetics));
+	populateCells(bactProto, pos) {
+		for (let coord of bactProto.pattern) {
+			this.board.populateCell(pos * 16 + coord.x, pos * 16 + coord.y, new Bacteria(bactProto.owner, bactProto.genetics));
 		}
 	}
 
 	start() {
 		this.board.createCells();
-		let count = 0;
+		let count = 1;
 		this.players.forEach(player => {
-			this.populateCells(player.bacteriaPrototype);
+			this.populateCells(player.bacteriaPrototype, count);
 			count++;
 		});
 	}
@@ -47,15 +45,15 @@ class Game {
 		// Siguiente generación, corre por todo el mapa y cambia todos los estados
 	}
 
-	pause() {
-		clearInterval(this.playInterval);
-	}
-
 	startAutomation() {
 		this.playInterval = setInterval(() => {
 			this.next();
 			this.reportStatus();
 		}, 500);
+	}
+
+	pause() {
+		clearInterval(this.playInterval);
 	}
 
 	runGeneration() {
