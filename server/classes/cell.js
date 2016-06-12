@@ -13,6 +13,13 @@ class Cell {
 	inhabit(obj) {
 		this.inhabitant = obj;
 	}
+
+	toString() {
+		if (this.inhabitant !== {}) {
+			return '|B|';
+		}
+		return '|' + ['_', '_', 'R', 'T', 'F'][this.type];
+	}
 }
 
 module.exports = Cell;

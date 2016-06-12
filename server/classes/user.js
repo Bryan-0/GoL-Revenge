@@ -21,7 +21,7 @@ class User {
 		proto.owner = this;
 		if (!proto.genetics)
 			proto.genetics = {fertility: 3, mortality: 1, stability: 2, color: '#000'};
-		if (!proto.pattern)
+		if (!proto.pattern || !Array.isArray(proto.pattern))
 			proto.pattern = [{x: 2, y: 1}, {x: 2, y: 2}, {x: 2, y: 3}];
 		this.bacteriaPrototype = proto;
 	}

@@ -18,6 +18,6 @@ describe('Game of Life', () => {
 		game.addPlayer(playerTwo);
 		game.start();
 		game.next();
-		console.log(game.boardStatus());
+		game.reportStatus();
 	});
 });

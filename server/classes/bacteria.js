@@ -9,3 +9,5 @@ class Bacteria {
 		this.color = genetics.color;
 	}
 }
+
+module.exports = Bacteria;

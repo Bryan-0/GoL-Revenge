@@ -1,7 +1,9 @@
 'use strict';
 
+const Bacteria = require('./bacteria.js');
+
 class Game {
-    constructor(owner, board) {
+	constructor(owner, board) {
 		this.owner = owner;
 		this.board = board;
 		this.status = 1;
@@ -9,50 +11,66 @@ class Game {
 		this.players = new Map();
 		this.addPlayer(this.owner);
 		this.entropy = 20;
-    }
+		this.lockedOnPlay = true;
+		this.playInterval = null;
+	}
 
-    addPlayer(player) {
-        this.players.set(player.id, player);
-    }
+	addPlayer(player) {
+		this.players.set(player.id, player);
+		this.updateBoardSize();
+	}
+
+	updateBoardSize() {
+		let newNum = 16 + this.players.size * 16
+		if (newNum > this.board.size)
+			this.board.size = newNum;
+	}
 
 	populateCells(bactProto, x, y) {
-        for (let coord of bactProto.pattern) {
-            this.board.populateCell(x + coord.x, y + coord.y, new Bacteria(bactProto.owner, bactProto.genetics));
-        }
-    }
+		for (let coord in bactProto.pattern) {
+			console.log(x, y, coord);
+			console.log('Populating on', x + coord.x, y + coord.y);
+			this.board.populateCell(x + coord.x, y + coord.y, new Bacteria(bactProto.owner, bactProto.genetics));
+		}
+	}
 
-    start() {
-		this.board.size = 16 + this.players.size * 16;
+	start() {
 		this.board.createCells();
-        let count = 0;
-        this.players.forEach(player => {
-            this.populateCells(player.bacteriaPrototype, x, y);
+		let count = 0;
+		this.players.forEach(player => {
+			this.populateCells(player.bacteriaPrototype);
+			count++;
+		});
+	}
 
-            count++;
-        });
-    }
+	next() {
+		// Siguiente generación, corre por todo el mapa y cambia todos los estados
+	}
 
-    next() {
-        // Siguiente generación, corre por todo el mapa y cambia todos los estados
-    }
+	pause() {
+		clearInterval(this.playInterval);
+	}
 
-    pause() {
-        // Pausa la iteración del juego (timer)
-    }
+	startAutomation() {
+		this.playInterval = setInterval(() => {
+			this.next();
+			this.reportStatus();
+		}, 500);
+	}
 
-    startAutomatic() {
-        // Aquí el juego corre automáticamente
-    }
+	runGeneration() {
+		if (this.status !== 2)
+			return;
 
-    runGeneration() {
-        if (this.status !== 2)
-            return;
+		for (let cell of this.board.board) {
 
-        for (let cell of this.board.board) {
+		}
+		this.generation++;
+	}
 
-        }
-        this.generation++;
-    }
+	reportStatus() {
+		this.board.show();
+	}
 }
 
 module.exports = Game;
