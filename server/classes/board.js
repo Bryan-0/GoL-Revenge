@@ -18,23 +18,22 @@ class Board {
 		}
 	}
 
-	getRandomType() {
+	getRandomType(entropy) {
+		entropy = entropy || 21;
 		let dice = Math.random() * 100;
-		if (dice < 7)
+		if (dice < entropy / 3)
 			return 2;
 
-		if (dice < 14)
+		if (dice < entropy / 3 * 2)
 			return 3;
 
-		if (dice < 21)
+		if (dice < entropy)
 			return 4;
 
 		return 1;
 	}
 
 	populateCell(x, y, bacteria) {
-		if (!this.board[x]) this.board[x] = [];
-		if (!this.board[x][y]) this.board[x][y] = new Cell();
 		this.board[x][y].inhabit(bacteria);
 	}
 
