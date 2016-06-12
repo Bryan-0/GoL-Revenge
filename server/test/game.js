@@ -18,6 +18,7 @@ describe('Game of Life', () => {
 		game.addPlayer(three);
 		game.addPlayer(four);
 		game.start();
+		game.reportStatus();
 		game.next();
 		game.reportStatus();
 	});

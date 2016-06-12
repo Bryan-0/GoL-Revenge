@@ -11,7 +11,17 @@ class Cell {
 	}
 
 	inhabit(obj) {
+		let changeBacteriaNum = !this.inhabitant;
 		this.inhabitant = obj;
+		return changeBacteriaNum;
+	}
+
+	kill() {
+		if (this.inhabitant) {
+			this.inhabitant = false;
+			return true;
+		}
+		return false;
 	}
 
 	isHabitated() {

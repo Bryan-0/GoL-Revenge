@@ -3,9 +3,15 @@
 class Bacteria {
 	constructor(owner, genetics) {
 		this.owner = owner;
+		// Each empty cell which has three or more neighbours, gets populated by this one.
+		// It must be less than overpopulation, and more than solitude.
 		this.fertility = genetics.fertility;
-		this.mortality = genetics.mortality;
-		this.stability = genetics.stability;
+		// Each cell which has `solitude` or less neighbours of the same species, dies.
+		// It must be the smallest number.
+		this.solitude = genetics.solitude;
+		// Each cell which is surrounded by `overpopulation` or more of the same species, dies.
+		// It must be the highest number.
+		this.overpopulation = genetics.overpopulation;
 		this.color = genetics.color;
 	}
 

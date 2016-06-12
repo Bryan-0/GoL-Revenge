@@ -42,10 +42,14 @@ class Game {
 			this.populateCells(player.bacteriaPrototype, count);
 			count++;
 		});
+		this.status = 2;
 	}
 
 	next() {
-		// Siguiente generación, corre por todo el mapa y cambia todos los estados
+		if (this.status === 2) {
+			this.board.nextState();
+			this.generation++;
+		}
 	}
 
 	startAutomation() {
@@ -57,16 +61,6 @@ class Game {
 
 	pause() {
 		clearInterval(this.playInterval);
-	}
-
-	runGeneration() {
-		if (this.status !== 2)
-			return;
-
-		for (let cell of this.board.board) {
-
-		}
-		this.generation++;
 	}
 
 	reportStatus() {
