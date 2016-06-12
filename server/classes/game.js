@@ -2,6 +2,8 @@
 
 const Bacteria = require('./bacteria.js');
 
+const PLAYER_AREA = 16;
+
 class Game {
 	constructor(owner, board) {
 		this.owner = owner;
@@ -21,14 +23,15 @@ class Game {
 	}
 
 	updateBoardSize() {
-		let newNum = 16 + this.players.size * 16
+		let newNum = PLAYER_AREA + this.players.size * PLAYER_AREA
 		if (newNum > this.board.size)
 			this.board.size = newNum;
 	}
 
 	populateCells(bactProto, pos) {
+		let range = Math.floor(Math.random() * PLAYER_AREA) + 1;
 		for (let coord of bactProto.pattern) {
-			this.board.populateCell(pos * 16 + coord.x, pos * 16 + coord.y, new Bacteria(bactProto.owner, bactProto.genetics));
+			this.board.populateCell(pos * range + coord.x, pos * range + coord.y, new Bacteria(bactProto.owner, bactProto.genetics));
 		}
 	}
 
