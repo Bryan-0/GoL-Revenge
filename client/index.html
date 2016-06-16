@@ -1,38 +1,43 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-		<title>Game of Life: Revenge</title>
-		<link rel="stylesheet" href="css/gol.css" />
-		<meta id="viewport" name="viewport" content="width=640" />
-		<meta name="robots" content="noindex" />
-		<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-		<script src="lib/sockjs-1.1.1.min.js"></script>
-		<script src="js/config.js"></script>
-		<script src="js/actions.js"></script>
-		<script src="js/encoder.js"></script>
-		<script src="js/client.js"></script>
-		<script src="js/sockets.js"></script>
-	</head>
-	<body>
-		<div id="body">
-			<h1>Game of Life: Revenge</h1>
-			<p>
-				<div id="your-name-input">Name: <input type="text" name="your-name" /></div>
-			</p>
-			<p>
-				<h2>Create game</h2>
-				<div id='creation-form'>
-				<form method="post" action="/">
 
-					<input type="button" id="create-game" value="Create Game" onclick="socket.send('CREATE_GAME', {si: 'oque'});" />
-				</form>
-				</div>
-			</p>
-			<p>
-				<h2>List of current games</h2>
-				<ul id='active-game-list'></ul>
-			</p>
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<title>Game of Life: Revenge</title>
+	<link rel="stylesheet" href="css/gol.css" />
+	<meta id="viewport" name="viewport" content="width=640" />
+	<meta name="robots" content="noindex" />
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+	<script src="lib/sockjs-1.1.1.min.js"></script>
+	<script src="js/config.js"></script>
+	<script src="js/actions.js"></script>
+	<script src="js/encoder.js"></script>
+	<script src="js/client.js"></script>
+	<script src="js/sockets.js"></script>
+</head>
+
+<body>
+	<div id="body">
+		<h1>Game of Life: Revenge</h1>
+		<div id="your-name-input">Name:
+			<input type="text" name="your-name" />
 		</div>
-	</body>
+		<div id="your-bacteria-genetics">
+			Stability: <input type="text" name="bacteria-stability"></br>
+			Fertility: <input type="text" name="bacteria-fertility"></br>
+			Mortality: <input type="text" name="bacteria-mortality"></br>
+		</div>
+		<h2>Create game</h2>
+		<div id='creation-form'>
+			<form method="post" action="/">
+
+				<input type="button" id="create-game" value="Create Game" onclick="socket.send('CREATE_GAME', {si: 'oque'});" />
+			</form>
+		</div>
+		<h2>List of current games</h2>
+		<ul id='active-game-list'></ul>
+		<input type="button" id="join-game" value="Join Game" onclick="socket.send('JOIN_GAME', {yes: 'orwhat'});" />
+	</div>
+</body>
+
 </html>
