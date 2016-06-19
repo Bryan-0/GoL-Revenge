@@ -9,11 +9,13 @@ class User {
 		this.generateId();
 		this.ips = [socket.remoteAddress];
 		this.currentIp = socket.remoteAddress;
-		this.bacteriaPrototype = {
-			owner: this,
-			genetics: {fertility: 3, mortality: 1, stability: 2, color: '#000'},
-			pattern: [{x: 2, y: 1}, {x: 2, y: 2}, {x: 2, y: 3}]
-		};
+		this.bacteriaPrototype = {owner: this};
+		this.defaultProto();
+	}
+
+	defaultProto() {
+		this.bacteriaPrototype.genetics = this.bacteriaPrototype.genetics || {fertility: 3, solitude: 1, overpopulation: 4, color: '#000'};
+		this.bacteriaPrototype.pattern = this.bacteriaPrototype.pattern || [{x: 2, y: 1}, {x: 2, y: 2}, {x: 2, y: 3}];
 	}
 
 	generateId() {
@@ -21,15 +23,10 @@ class User {
 		this.id = text.toLowerCase().replace(/[^a-z0-9]+/g, '');
 	}
 
-	usePrototype(proto) {
-		if (!proto)
-			proto = {};
+	usePrototype(proto = {}) {
 		proto.owner = this;
-		if (!proto.genetics)
-			proto.genetics = {fertility: 3, mortality: 1, stability: 2, color: '#000'};
-		if (!proto.pattern)
-			proto.pattern = [{x: 2, y: 1}, {x: 2, y: 2}, {x: 2, y: 3}];
 		this.bacteriaPrototype = proto;
+		this.defaultProto();
 	}
 
 	send(message) {

@@ -21,7 +21,7 @@ describe('Game of Life', () => {
 		game.start();
 		game.reportStatus();
 	});
-	
+
 	it('nextGen?', () => {
 		game.next();
 		game.reportStatus();

@@ -35,19 +35,22 @@ class Game {
         }
     }
 
-    start() {
-        this.board.createCells();
-        let count = 1;
-        this.players.forEach(player => {
-            this.populateCells(player.bacteriaPrototype, count);
-            count++;
-        });
-    }
+	start() {
+		this.board.createCells();
+		let count = 1;
+		this.players.forEach(player => {
+			this.populateCells(player.bacteriaPrototype, count);
+			count++;
+		});
+		this.status = 2;
+	}
 
-    next() {
-        // Siguiente generación, corre por todo el mapa y cambia todos los estados
-        this.runGeneration();
-    }
+	next() {
+		if (this.status === 2) {
+			this.board.nextState();
+			this.generation++;
+		}
+	}
 
     startAutomation() {
         this.playInterval = setInterval(() => {
