@@ -3,21 +3,21 @@
 const Cell = require('./cell.js');
 
 class Board {
-<<<<<<< HEAD
-    constructor(id) {
-        this.id = id;
-        this.board = [];
-        this.size = 15;
-    }
+    constructor() {
+		this.board = [];
+		this.size = 15;
+		this.totalBacteria = 0;
+		this.habitatedCells = {};
+	}
 
     createCells() {
-        for (let x = 0; x < this.size; x++) {
-            if (!this.board[x]) this.board[x] = [];
-            for (let y = 0; y < this.size; y++) {
-                this.board[x][y] = new Cell();
-            }
-        }
-    }
+		for (let x = 0; x < this.size; x++) {
+			if (!this.board[x]) this.board[x] = [];
+			for (let y = 0; y < this.size; y++) {
+				this.board[x][y] = new Cell();
+			}
+		}
+	}
 
     getRandomType(entropy) {
         entropy = entropy || 21;
@@ -32,25 +32,6 @@ class Board {
             return 4;
 
         return 1;
-    }
-
-    populateCell(x, y, bacteria) {
-        this.board[x][y].inhabit(bacteria);
-    }
-
-    isHabitated(x, y) {
-        return this.board[x][y].isHabitated();
-    }
-
-    show() {
-        let opt = '';
-        for (let x = 0; x < this.size; x++) {
-            for (let y = 0; y < this.size; y++) {
-                opt += '' + this.board[x][y];
-            }
-            opt += '|\n';
-        }
-        console.log(opt);
     }
 
     evaluateGeneration(x, y) {
@@ -112,13 +93,6 @@ class Board {
 		//TODO Revisar esto: estoy evaluando dos veces.
 		// No exactamente dos veces, sino algo más grave.
     }
-=======
-	constructor() {
-		this.board = [];
-		this.size = 15;
-		this.totalBacteria = 0;
-		this.habitatedCells = {};
-	}
 
 	// Esto da puta vergüenza. Por favor, hay que mejorarlo.
 	nextState() {
@@ -196,30 +170,6 @@ class Board {
 		}
 	}
 
-	createCells() {
-		for (let x = 0; x < this.size; x++) {
-			if (!this.board[x]) this.board[x] = [];
-			for (let y = 0; y < this.size; y++) {
-				this.board[x][y] = new Cell();
-			}
-		}
-	}
-
-	getRandomType(entropy) {
-		entropy = entropy || 21;
-		let dice = Math.random() * 100;
-		if (dice < entropy / 3)
-			return 2;
-
-		if (dice < entropy / 3 * 2)
-			return 3;
-
-		if (dice < entropy)
-			return 4;
-
-		return 1;
-	}
-
 	populateCell(x, y, bacteria) {
 		if (this.board[x][y].inhabit(bacteria))
 			this.totalBacteria++;
@@ -247,7 +197,7 @@ class Board {
 		}
 		console.log(opt);
 	}
->>>>>>> a3d7a445694ae80cacfe082ed7b936b100dac54f
+
 }
 
 module.exports = Board;
