@@ -78,32 +78,32 @@ class Board {
         }
 
         if (isHabitated(x + 1, y - 1)) {
-            neighbourBacteria[bacteriaCount] = board[x - 1][y - 1].inhabitant;
+            neighbourBacteria[bacteriaCount] = board[x + 1][y - 1].inhabitant;
             bacteriaCount++;
         }
 
         if (isHabitated(x - 1, y)) {
-            neighbourBacteria[bacteriaCount] = board[x - 1][y - 1].inhabitant;
+            neighbourBacteria[bacteriaCount] = board[x - 1][y].inhabitant;
             bacteriaCount++;
         }
 
         if (isHabitated(x + 1, y)) {
-            neighbourBacteria[bacteriaCount] = board[x][y - 1].inhabitant;
+            neighbourBacteria[bacteriaCount] = board[x + 1][y].inhabitant;
             bacteriaCount++;
         }
 
         if (isHabitated(x - 1, y + 1)) {
-            neighbourBacteria[bacteriaCount] = board[x - 1][y - 1].inhabitant;
+            neighbourBacteria[bacteriaCount] = board[x - 1][y + 1].inhabitant;
             bacteriaCount++;
         }
 
         if (isHabitated(x, y + 1)) {
-            neighbourBacteria[bacteriaCount] = board[x][y - 1].inhabitant;
+            neighbourBacteria[bacteriaCount] = board[x][y + 1].inhabitant;
             bacteriaCount++;
         }
 
         if (isHabitated(x + 1, y + 1)) {
-            neighbourBacteria[bacteriaCount] = board[x][y - 1].inhabitant;
+            neighbourBacteria[bacteriaCount] = board[x + 1][y + 1].inhabitant;
             bacteriaCount++;
         }
 
