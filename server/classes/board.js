@@ -3,14 +3,14 @@
 const Cell = require('./cell.js');
 
 class Board {
-    constructor() {
+	constructor() {
 		this.board = [];
 		this.size = 15;
 		this.totalBacteria = 0;
 		this.habitatedCells = {};
 	}
 
-    createCells() {
+	createCells() {
 		for (let x = 0; x < this.size; x++) {
 			if (!this.board[x]) this.board[x] = [];
 			for (let y = 0; y < this.size; y++) {
@@ -19,80 +19,80 @@ class Board {
 		}
 	}
 
-    getRandomType(entropy) {
-        entropy = entropy || 21;
-        let dice = Math.random() * 100;
-        if (dice < entropy / 3)
-            return 2;
+	getRandomType(entropy) {
+		entropy = entropy || 21;
+		let dice = Math.random() * 100;
+		if (dice < entropy / 3)
+			return 2;
 
-        if (dice < entropy / 3 * 2)
-            return 3;
+		if (dice < entropy / 3 * 2)
+			return 3;
 
-        if (dice < entropy)
-            return 4;
+		if (dice < entropy)
+			return 4;
 
-        return 1;
-    }
+		return 1;
+	}
 
-    evaluateGeneration(x, y) {
-        //TODO Write me!
-        let neighbourBacteria = getNeighbourBacteria(x, y);
+	evaluateGeneration(x, y) {
+		//TODO Write me!
+		let neighbourBacteria = getNeighbourBacteria(x, y);
 
 		//NECESITO LINQ
 
 		//neighbourBacteria.GroupBy(bacteria.owner);
 
-    }
+	}
 
-    getNeighbourBacteria(x, y) {
-        let neighbourBacteria = [];
-        let bacteriaCount = 0;
+	getNeighbourBacteria(x, y) {
+		let neighbourBacteria = [];
+		let bacteriaCount = 0;
 
-        if (isHabitated(x - 1, y - 1)) {
-            neighbourBacteria[bacteriaCount] = board[x - 1][y - 1].inhabitant;
-            bacteriaCount++;
-        }
+		if (isHabitated(x - 1, y - 1)) {
+			neighbourBacteria[bacteriaCount] = board[x - 1][y - 1].inhabitant;
+			bacteriaCount++;
+		}
 
-        if (isHabitated(x, y - 1)) {
-            neighbourBacteria[bacteriaCount] = board[x][y - 1].inhabitant;
-            bacteriaCount++;
-        }
+		if (isHabitated(x, y - 1)) {
+			neighbourBacteria[bacteriaCount] = board[x][y - 1].inhabitant;
+			bacteriaCount++;
+		}
 
-        if (isHabitated(x + 1, y - 1)) {
-            neighbourBacteria[bacteriaCount] = board[x + 1][y - 1].inhabitant;
-            bacteriaCount++;
-        }
+		if (isHabitated(x + 1, y - 1)) {
+			neighbourBacteria[bacteriaCount] = board[x + 1][y - 1].inhabitant;
+			bacteriaCount++;
+		}
 
-        if (isHabitated(x - 1, y)) {
-            neighbourBacteria[bacteriaCount] = board[x - 1][y].inhabitant;
-            bacteriaCount++;
-        }
+		if (isHabitated(x - 1, y)) {
+			neighbourBacteria[bacteriaCount] = board[x - 1][y].inhabitant;
+			bacteriaCount++;
+		}
 
-        if (isHabitated(x + 1, y)) {
-            neighbourBacteria[bacteriaCount] = board[x + 1][y].inhabitant;
-            bacteriaCount++;
-        }
+		if (isHabitated(x + 1, y)) {
+			neighbourBacteria[bacteriaCount] = board[x + 1][y].inhabitant;
+			bacteriaCount++;
+		}
 
-        if (isHabitated(x - 1, y + 1)) {
-            neighbourBacteria[bacteriaCount] = board[x - 1][y + 1].inhabitant;
-            bacteriaCount++;
-        }
+		if (isHabitated(x - 1, y + 1)) {
+			neighbourBacteria[bacteriaCount] = board[x - 1][y + 1].inhabitant;
+			bacteriaCount++;
+		}
 
-        if (isHabitated(x, y + 1)) {
-            neighbourBacteria[bacteriaCount] = board[x][y + 1].inhabitant;
-            bacteriaCount++;
-        }
+		if (isHabitated(x, y + 1)) {
+			neighbourBacteria[bacteriaCount] = board[x][y + 1].inhabitant;
+			bacteriaCount++;
+		}
 
-        if (isHabitated(x + 1, y + 1)) {
-            neighbourBacteria[bacteriaCount] = board[x + 1][y + 1].inhabitant;
-            bacteriaCount++;
-        }
+		if (isHabitated(x + 1, y + 1)) {
+			neighbourBacteria[bacteriaCount] = board[x + 1][y + 1].inhabitant;
+			bacteriaCount++;
+		}
 
-        return neighbourBacteria;
+		return neighbourBacteria;
 
 		//TODO Revisar esto: estoy evaluando dos veces.
 		// No exactamente dos veces, sino algo más grave.
-    }
+	}
 
 	// Esto da puta vergüenza. Por favor, hay que mejorarlo.
 	nextState() {
