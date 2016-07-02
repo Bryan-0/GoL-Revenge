@@ -36,7 +36,7 @@ class Game {
     }
 
 	start() {
-		this.board.createCells();
+		this.board.createOwnCells();
 		let count = 1;
 		this.players.forEach(player => {
 			this.populateCells(player.bacteriaPrototype, count);

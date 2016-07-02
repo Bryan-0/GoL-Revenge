@@ -32,7 +32,7 @@ class Cell {
 		if (!this.inhabitant) {
 			return '|' + ['_', '_', 'R', 'T', 'F'][this.type];
 		}
-		return '' + this.inhabitant; // isn't there something like a stringBuilder?
+		return '' + this.inhabitant;
 	}
 }
 
