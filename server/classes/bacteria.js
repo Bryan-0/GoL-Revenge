@@ -13,6 +13,7 @@ class Bacteria {
 		// It must be the highest number.
 		this.overpopulation = genetics.overpopulation;
 		this.color = genetics.color;
+		this.ancestors;
 	}
 
 	toString() {

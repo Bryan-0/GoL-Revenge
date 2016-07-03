@@ -1,6 +1,7 @@
 'use strict';
 
 const Cell = require('./cell.js');
+const CellTracker = require('./cell-tracker.js');
 
 class Board {
 	constructor() {
@@ -48,7 +49,19 @@ class Board {
 		let newBoard = [];
 		this.createCells(newBoard, this.size);
 		for (let surrounded of this.trackCells) {
-
+			// surrounded tiene una lista de tipos de bacteria que lo rodean
+			// Ordenar la lista de tipos por cantidad
+			// Ver el tipo de cantidad
+			if (surrounded.type === 'B') {
+				// Tiene una bacteria
+				// Check muerte sobrepoblación
+				// Check muerte soledad
+				// Check poblar con una nueva tras check de muertes
+			} else {
+				// No bacteria
+				// Check reproducciones
+				// Check nueva bacteria de CPU
+			}
 		}
 	}
 
@@ -59,21 +72,20 @@ class Board {
 		}
 	}
 
+	// Marks a cell and all its neighbours as active for the next step.
 	addCellTrack(x, y, bacteria) {
-		this.markCoordinates(x, y);
-
+		let track = new CellTracker(x, y);
 	}
 
-	markCoordinates(x, y) {
-		if (!this.trackCells.has(x + ',' + y))
-			this.trackCells.set(x + ',' + y, {
-				value: '',
-				surroundings: {}
-			});
+	getCell(x, y) {
+		if (!this.board[x] || !this.board[x][y]) return false;
+		return this.board[x][y];
 	}
 
 	isHabitated(x, y) {
-		return this.board[x][y].isHabitated();
+		let cell = this.getCell(x, y);
+		if (!cell) return false;
+		return cell.isHabitated();
 	}
 
 	show() {

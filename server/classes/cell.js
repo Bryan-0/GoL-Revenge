@@ -4,6 +4,7 @@ class Cell {
 	constructor() {
 		this.type = 1;
 		this.inhabitant = false;
+		this.neighbours = {above: null, below: null, left: null, right: null};
 	}
 
 	makeType(type) {
