@@ -3,7 +3,7 @@
 class Bacteria {
 	constructor(owner, genetics) {
 		this.owner = owner;
-		// Each empty cell which has three or more neighbours, gets populated by this one.
+		// Each empty cell which has `fertility` or more neighbours, gets populated by this one.
 		// It must be less than overpopulation, and more than solitude.
 		this.fertility = genetics.fertility;
 		// Each cell which has `solitude` or less neighbours of the same species, dies.
@@ -14,9 +14,10 @@ class Bacteria {
 		this.overpopulation = genetics.overpopulation;
 		this.color = genetics.color;
 		this.ancestors;
+		this.id = '' + this.ownerColor() + this.owner.id + genetics.fertility + genetics.solitude + genetics.overpopulation + genetics.color;
 	}
 
-	toString() {
+	ownerColor() {
 		let color = 0;
 		for (let char of this.owner.id) {
 			color += parseInt(char.charCodeAt(0));
@@ -33,7 +34,11 @@ class Bacteria {
 			color = '1;';
 		}
 		color += possible;
-		return '|\x1B[' + color + 'mB\x1B[0m';
+		return color;
+	}
+
+	toString() {
+		return '|\x1B[' + this.ownerColor() + 'mB\x1B[0m';
 	}
 }
 

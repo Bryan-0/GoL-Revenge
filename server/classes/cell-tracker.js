@@ -10,19 +10,7 @@ class CellTracker {
 			'T': 0,
 			'F': 0
 		};
-		this.surrounding = [];
-	}
-
-	orderSurrounding() {
-		this.surrounding.sort((itemA, itemB) => {
-			if (itemB.quantity > itemA.quantity)
-				return -1;
-
-			if (itemA.quantity > itemB.quantity)
-				return 1;
-
-			return 0;
-		});
+		this.surrounding = {};
 	}
 }
 

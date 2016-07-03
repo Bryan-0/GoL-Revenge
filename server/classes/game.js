@@ -28,13 +28,6 @@ class Game {
 			this.board.size = newNum;
 	}
 
-	populateCells(bactProto, pos) {
-		let range = Math.floor(Math.random() * PLAYER_AREA) + 1;
-		for (let coord of bactProto.pattern) {
-			this.board.populateCell(pos * range + coord.x, pos * range + coord.y, new Bacteria(bactProto.owner, bactProto.genetics));
-		}
-	}
-
 	start() {
 		this.board.createOwnCells();
 		let count = 1;
@@ -43,6 +36,13 @@ class Game {
 			count++;
 		});
 		this.status = 2;
+	}
+
+	populateCells(bactProto, pos) {
+		let range = Math.floor(Math.random() * PLAYER_AREA) + 1;
+		for (let coord of bactProto.pattern) {
+			this.board.populateCell(pos * range + coord.x, pos * range + coord.y, new Bacteria(bactProto.owner, bactProto.genetics));
+		}
 	}
 
 	next() {
