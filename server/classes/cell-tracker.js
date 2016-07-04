@@ -1,7 +1,7 @@
 'use strict';
 
 class CellTracker {
-	constructor(x, y, state='empty', cellType='_') {
+	constructor(x, y, cellType='_', state='empty') {
 		this.pos = {x: x, y: y};
 		this.state = state;
 		this.cellType = cellType;
@@ -11,6 +11,10 @@ class CellTracker {
 			'F': 0
 		};
 		this.surrounding = {};
+	}
+
+	hasBacteria() {
+		return this.state === 'bacteria';
 	}
 }
 

@@ -8,7 +8,7 @@ class FakeUser extends User {
 		this.socket = new FakeSocket();
 		socket.user = this;
 		this.guestNum = -1;
-		this.name = 'Fake user';
+		this.name = 'CPU user';
 		this.generateId();
 		this.ips = ['0.0.0.0'];
 		this.currentIp = '0.0.0.0';

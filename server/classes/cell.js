@@ -1,10 +1,10 @@
 'use strict';
 
 class Cell {
-	constructor() {
-		this.type = 1;
+	constructor(type) {
+		this.type = type || 1;
 		this.inhabitant = false;
-		this.neighbours = {above: null, below: null, left: null, right: null};
+		this.neighbours = {topleft: null, above: null, topright: null, below: null, left: null, right: null};
 	}
 
 	makeType(type) {
