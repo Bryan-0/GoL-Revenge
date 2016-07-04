@@ -68,37 +68,37 @@ class Board {
 						continue;
 					}
 				}
+			}
 
-				// Empty cell, check if a reproduction rule applies.
-				let reproducers = [];
-				for (let sur in trackedState.surrounding) {
-					if (trackedState.surrounding[sur].quantity === trackedState.surrounding[sur].type.fertility)
-						reproducers.push(trackedState.surrounding[sur].type);
-					// TODO: Add here toxic and fertility celltype checks for extra reproduction/death.
-					// Rule of thumb: fertility=toxic no effect, f>t it's f, f<t it's t.
+			// Empty cell, check if a reproduction rule applies.
+			let reproducers = [];
+			for (let sur in trackedState.surrounding) {
+				if (trackedState.surrounding[sur].quantity === trackedState.surrounding[sur].type.fertility)
+					reproducers.push(trackedState.surrounding[sur].type);
+				// TODO: Add here toxic and fertility celltype checks for extra reproduction/death.
+				// Rule of thumb: fertility=toxic no effect, f>t it's f, f<t it's t.
+			}
+			if (reproducers.length === 1) {
+				newBoard[trackedState.pos.x][trackedState.pos.y].inhabit(reproducers[0]);
+			}
+			// Several reproduction rules apply. Make new Bacteria.
+			if (reproducers.length > 1) {
+				// We'll get the best genetics.
+				let proto =  {genetics: {fertility: 10, solitude: -1, overpopulation: 10, color: 0}};
+				for (let rep of reproducers) {
+					if (rep.fertility < proto.fertility)
+						proto.fertility = rep.fertility;
+					if (rep.overpopulation > proto.overpopulation)
+						proto.overpopulation = rep.overpopulation;
+					if (rep.solitude < proto.solitude)
+						proto.solitude = rep.solitude;
+					proto.color += parseInt('0x' + rep.color, 16) / 2;
 				}
-				if (reproducers.length === 1) {
-					newBoard[trackedState.pos.x][trackedState.pos.y].inhabit(reproducers[0]);
-				}
-				// Several reproduction rules apply. Make new Bacteria.
-				if (reproducers.length > 1) {
-					// We'll get the best genetics.
-					let proto =  {genetics: {fertility: 10, solitude: -1, overpopulation: 10, color: 0}};
-					for (let rep of reproducers) {
-						if (rep.fertility < proto.fertility)
-							proto.fertility = rep.fertility;
-						if (rep.overpopulation > proto.overpopulation)
-							proto.overpopulation = rep.overpopulation;
-						if (rep.solitude < proto.solitude)
-							proto.solitude = rep.solitude;
-						proto.color += parseInt('0x' + rep.color, 16) / 2;
-					}
-					if (proto.solitude >= proto.fertility)
-						proto.solitude = proto.fertility - 1;
-					// Colour is calculated with integers, but it is transformed into an hex in the end to be used directly.
-					proto.color = proto.color.toString(16);
-					newBoard[trackedState.pos.x][trackedState.pos.y].inhabit(new Bacteria(new FakeUser(), proto));
-				}
+				if (proto.solitude >= proto.fertility)
+					proto.solitude = proto.fertility - 1;
+				// Colour is calculated with integers, but it is transformed into an hex in the end to be used directly.
+				proto.color = proto.color.toString(16);
+				newBoard[trackedState.pos.x][trackedState.pos.y].inhabit(new Bacteria(new FakeUser(), proto));
 			}
 		}
 		this.board = newBoard;
