@@ -13,17 +13,19 @@ class Board {
 		this.trackedCells = {};
 	}
 
-	// Creates the cells for its own board array instance.
-	// Used on initialisation. The createCells function is used for next state board arrays.
-	createOwnCells() {
-		this.createCells(this.board, this.size);
+	createCells() {
+		for (let x = 0; x < this.size; x++) {
+			if (!this.board[x]) this.board[x] = [];
+			for (let y = 0; y < this.size; y++) {
+				this.board[x][y] = new Cell(this.getRandomType());
+			}
+		}
 	}
 
-	createCells(board, size) {
-		for (let x = 0; x < size; x++) {
-			if (!board[x]) board[x] = [];
-			for (let y = 0; y < size; y++) {
-				board[x][y] = new Cell(this.getRandomType());
+	passBoardState() {
+		for (let x = 0; x < this.board.length; x++) {
+			for (let y = 0; y < this.board[x].length; y++) {
+				this.nextBoard[x][y] = new Cell();
 			}
 		}
 	}
@@ -45,11 +47,10 @@ class Board {
 	}
 
 	nextState() {
-		// Prepare the new board, which will take place on the curreny array.
-		let newBoard = [];
-		this.createCells(newBoard, this.size);
-		// TODO: Create new tracked cells object.
-		let newTrackedCells = {};
+		// Prepare the new board, which will take place on the current array.
+		this.nextBoard = [];
+		let currentAlive = [];
+		let bacterias = [];
 
 		// Check each tracked cell and its state to calculate the next state for each position.
 		for (let theCoords in this.trackedCells) {
@@ -57,6 +58,7 @@ class Board {
 
 			if (trackedState.hasBacteria()) {
 				// The cell has a Bacteria living on it.
+				currentAlive.push(trackedState.pos.x + ',' + trackedState.pos.y);
 				// Check muerte sobrepoblación
 				// Check muerte soledad
 				// Check poblar con una nueva tras check de muertes
@@ -64,7 +66,7 @@ class Board {
 				if (trackedState.surrounding[bacteria.id]) {
 					if (trackedState.surrounding[bacteria.id].quantity < bacteria.overpopulation && trackedState.surrounding[bacteria.id].quantity > bacteria.solitude) {
 						// It does not die, we assign it and continue calculating.
-						newBoard[trackedState.pos.x][trackedState.pos.y].inhabit(bacteria);
+						bacterias[trackedState.pos.x + ',' + trackedState.pos.y] = bacteria;
 						continue;
 					}
 				}
@@ -79,29 +81,53 @@ class Board {
 				// Rule of thumb: fertility=toxic no effect, f>t it's f, f<t it's t.
 			}
 			if (reproducers.length === 1) {
-				newBoard[trackedState.pos.x][trackedState.pos.y].inhabit(reproducers[0]);
+				bacterias[trackedState.pos.x + ',' + trackedState.pos.y] = reproducers[0];
 			}
 			// Several reproduction rules apply. Make new Bacteria.
 			if (reproducers.length > 1) {
-				// We'll get the best genetics.
-				let proto =  {genetics: {fertility: 10, solitude: -1, overpopulation: 10, color: 0}};
-				for (let rep of reproducers) {
-					if (rep.fertility < proto.fertility)
-						proto.fertility = rep.fertility;
-					if (rep.overpopulation > proto.overpopulation)
-						proto.overpopulation = rep.overpopulation;
-					if (rep.solitude < proto.solitude)
-						proto.solitude = rep.solitude;
-					proto.color += parseInt('0x' + rep.color, 16) / 2;
-				}
-				if (proto.solitude >= proto.fertility)
-					proto.solitude = proto.fertility - 1;
-				// Colour is calculated with integers, but it is transformed into an hex in the end to be used directly.
-				proto.color = proto.color.toString(16);
-				newBoard[trackedState.pos.x][trackedState.pos.y].inhabit(new Bacteria(new FakeUser(), proto));
+				bacterias[trackedState.pos.x + ',' + trackedState.pos.y] = new Bacteria(new FakeUser(), this.bestGenetics(reproducers));
 			}
 		}
-		this.board = newBoard;
+		this.updateBoardState(currentAlive, bacterias);
+	}
+
+	updateBoardState(currentAlive, bacterias) {
+		// Kill bacterias on coordinates where they aren't gonna survive.
+		let livinCoords = Object.keys(bacterias);
+		for (let coords of currentAlive) {
+			if (livinCoords.indexOf(coords) === -1) {
+				let [x, y] = coords.split(',');
+				this.board[x][y].kill();
+				this.totalBacteria--;
+			}
+		}
+
+		// Reset track state.
+		this.trackedCells = {};
+
+		// Proceed to set the next bacterias alive on the board.
+		for (let coords in bacterias) {
+			let [x, y] = coords.split(',');
+			this.populateCell(x, y, bacterias[coords]);
+		}
+	}
+
+	bestGenetics(reproducers) {
+		let proto =  {genetics: {fertility: 10, solitude: -1, overpopulation: 10, color: 0}};
+		for (let rep of reproducers) {
+			if (rep.fertility < proto.fertility)
+				proto.fertility = rep.fertility;
+			if (rep.overpopulation > proto.overpopulation)
+				proto.overpopulation = rep.overpopulation;
+			if (rep.solitude < proto.solitude)
+				proto.solitude = rep.solitude;
+			proto.color += parseInt('0x' + rep.color, 16) / 2;
+		}
+		if (proto.solitude >= proto.fertility)
+			proto.solitude = proto.fertility - 1;
+		// Colour is calculated with integers, but it is transformed into an hex in the end to be used directly.
+		proto.color = proto.color.toString(16);
+		return proto;
 	}
 
 	// Gets the cell from the active instance board.
@@ -136,16 +162,16 @@ class Board {
 
 		// Now mark all neighbours as having this bacteria nearby.
 		for (let coords of [[-1, -1], [0, -1], [1, -1], [-1, 0], [1, 0], [-1, 1], [0, 1], [1, 1]]) {
-			this.surroundedCell(x + coords[0], y + coords[1], bacteria);
+			this.surroundedCell(this.trackedCells, x + coords[0], y + coords[1], bacteria);
 		}
 	}
 
-	surroundedCell(x, y, bacteria) {
+	surroundedCell(trackedCells, x, y, bacteria) {
 		if (this.markCell(x, y)) {
 			let pos = x + ',' + y;
-			if (!this.trackedCells[pos].surrounding[bacteria.id])
-				this.trackedCells[pos].surrounding[bacteria.id] = {type: bacteria, quantity: 0};
-			this.trackedCells[pos].surrounding[bacteria.id].quantity++;
+			if (!trackedCells[pos].surrounding[bacteria.id])
+				trackedCells[pos].surrounding[bacteria.id] = {type: bacteria, quantity: 0};
+			trackedCells[pos].surrounding[bacteria.id].quantity++;
 		}
 	}
 
