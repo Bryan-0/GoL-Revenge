@@ -161,16 +161,16 @@ class Board {
 
 		// Now mark all neighbours as having this bacteria nearby.
 		for (let coords of [[-1, -1], [0, -1], [1, -1], [-1, 0], [1, 0], [-1, 1], [0, 1], [1, 1]]) {
-			this.surroundedCell(this.trackedCells, x + coords[0], y + coords[1], bacteria);
+			this.surroundedCell(x + coords[0], y + coords[1], bacteria);
 		}
 	}
 
-	surroundedCell(trackedCells, x, y, bacteria) {
+	surroundedCell(x, y, bacteria) {
 		if (this.markCell(x, y)) {
 			let pos = x + ',' + y;
-			if (!trackedCells[pos].surrounding[bacteria.id])
-				trackedCells[pos].surrounding[bacteria.id] = {type: bacteria, quantity: 0};
-			trackedCells[pos].surrounding[bacteria.id].quantity++;
+			if (!this.trackedCells[pos].surrounding[bacteria.id])
+				this.trackedCells[pos].surrounding[bacteria.id] = {type: bacteria, quantity: 0};
+			this.trackedCells[pos].surrounding[bacteria.id].quantity++;
 		}
 	}
 
@@ -188,7 +188,7 @@ class Board {
 		let opt = '';
 		for (let x = 0; x < this.size; x++) {
 			for (let y = 0; y < this.size; y++) {
-				opt += '' + this.board[x][y];
+				opt += '' + this.board[y][x];
 			}
 			opt += '|\n';
 		}
