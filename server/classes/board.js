@@ -59,13 +59,11 @@ class Board {
 			if (trackedState.hasBacteria()) {
 				// The cell has a Bacteria living on it.
 				currentAlive.push(trackedState.pos.x + ',' + trackedState.pos.y);
-				// Check muerte sobrepoblación
-				// Check muerte soledad
-				// Check poblar con una nueva tras check de muertes
+				// Check now if it stays alive.
 				let bacteria = this.getCell(trackedState.pos.x, trackedState.pos.y).inhabitant;
 				if (trackedState.surrounding[bacteria.id]) {
 					if (trackedState.surrounding[bacteria.id].quantity < bacteria.overpopulation && trackedState.surrounding[bacteria.id].quantity > bacteria.solitude) {
-						// It does not die, we assign it and continue calculating.
+						// It does not die, we store it as a survivor.
 						bacterias[trackedState.pos.x + ',' + trackedState.pos.y] = bacteria;
 						continue;
 					}
@@ -91,24 +89,25 @@ class Board {
 		this.updateBoardState(currentAlive, bacterias);
 	}
 
-	updateBoardState(currentAlive, bacterias) {
+	// Given a list of currently alive bacteria and an object with the bacterias on the next state, updates the board state.
+	updateBoardState(currentAlive, nextStateLiving) {
 		// Kill bacterias on coordinates where they aren't gonna survive.
-		let livinCoords = Object.keys(bacterias);
+		let livinCoords = Object.keys(nextStateLiving);
 		for (let coords of currentAlive) {
 			if (livinCoords.indexOf(coords) === -1) {
 				let [x, y] = coords.split(',');
 				this.board[x][y].kill();
 				this.totalBacteria--;
+				delete this.trackedCells[x + ',' + y];
 			}
 		}
 
-		// Reset track state.
-		this.trackedCells = {};
-
 		// Proceed to set the next bacterias alive on the board.
-		for (let coords in bacterias) {
-			let [x, y] = coords.split(',');
-			this.populateCell(x, y, bacterias[coords]);
+		for (let coords in nextStateLiving) {
+			if (currentAlive.indexOf(coords) === -1) {
+				let [x, y] = coords.split(',');
+				this.populateCell(x, y, nextStateLiving[coords]);
+			}
 		}
 	}
 

@@ -4,9 +4,9 @@ const FakeSocket = require('./fake-socket.js');
 const User = require('../user.js');
 
 class FakeUser extends User {
-	constructor(socket) {
+	constructor() {
 		this.socket = new FakeSocket();
-		socket.user = this;
+		this.socket.user = this;
 		this.guestNum = -1;
 		this.name = 'CPU user';
 		this.generateId();
