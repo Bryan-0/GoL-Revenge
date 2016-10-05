@@ -1,3 +1,5 @@
+'use strict';
+
 const assert = require('assert');
 const Game = require('./../classes/game.js');
 const User = require('./../classes/user.js');
